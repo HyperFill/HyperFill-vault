@@ -3,8 +3,8 @@ pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 
 /**
  * @title HyperFillVault
@@ -22,6 +22,15 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
     event LiquidityReturned(address indexed user, address indexed fromWallet, uint256 amount);
     event AllCapitalReturned(address indexed user, address indexed fromWallet, uint256 amount);
     event ProfitsDeposited(uint256 amount);
+    event ManagementFeeSet(uint256 newFeeBps, uint256 oldFeeBps);
+    event PerformanceFeeSet(uint256 newFeeBps, uint256 oldFeeBps);
+    event FeeRecipientSet(address indexed newRecipient, address indexed oldRecipient);
+    event FeesWithdrawn(
+        address indexed recipient, 
+        uint256 managementFees, 
+        uint256 performanceFees, 
+        uint256 totalFees
+    );  
     
     // ===== STATE VARIABLES =====
     
@@ -42,6 +51,21 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
 
     /// @notice Array to keep track of all authorized agents (NOUVEAU - NÉCESSAIRE)
     address[] public authorizedAgentsList;
+
+    /// @notice Management fee (basis points per year, 10000 = 100%)
+    uint256 public managementFeeBps = 200; // 2% per year by default
+
+    /// @notice Performance fee (basis points on profits, 10000 = 100%)
+    uint256 public performanceFeeBps = 500; // 5% on profits by default
+
+    /// @notice Fee recipient address
+    address public feeRecipient;
+
+    /// @notice Accumulated management fees
+    uint256 public accumulatedManagementFees;
+
+    /// @notice Accumulated performance fees
+    uint256 public accumulatedPerformanceFees;
     
     // ===== CONSTRUCTOR =====
     
@@ -93,7 +117,6 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
     
     /**
      * @notice Remove liquidity from the vault
-     * @param shares Number of shares to burn
      * @return assets Amount of SEI tokens returned
      */
     function withdrawProfits() 
@@ -120,7 +143,6 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
         
         return assets;
     }
-
     
     // ===== AGENT MANAGEMENT =====
 
@@ -241,7 +263,6 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
     }
 
     function removeAuthorizedAgent(address agent) external onlyOwner {
-       
         uint256 index = type(uint256).max;
         for (uint256 i = 0; i < authorizedAgentsList.length; i++) {
             if (authorizedAgentsList[i] == agent) {
@@ -287,6 +308,67 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
     function unpause() external onlyOwner {
         _unpause();
     }
+
+    // ===== 4 FONCTIONS FEE MANAGEMENT =====
+
+    /**
+     * @notice Set management fee rate
+     * @param newFeeBps New management fee in basis points per year (max 500 = 5%)
+     */
+    function setManagementFee(uint256 newFeeBps) external onlyOwner {
+        require(newFeeBps <= 500, "HyperFillVault: Management fee too high"); // Max 5%
+        uint256 oldFeeBps = managementFeeBps;
+        managementFeeBps = newFeeBps;
+        emit ManagementFeeSet(newFeeBps, oldFeeBps);
+    }
+
+    /**
+     * @notice Set performance fee rate
+     * @param newFeeBps New performance fee in basis points on profits (max 3000 = 30%)
+     */
+    function setPerformanceFee(uint256 newFeeBps) external onlyOwner {
+        require(newFeeBps <= 3000, "HyperFillVault: Performance fee too high"); // Max 30%
+        uint256 oldFeeBps = performanceFeeBps;
+        performanceFeeBps = newFeeBps;
+        emit PerformanceFeeSet(newFeeBps, oldFeeBps);
+    }
+
+    /**
+     * @notice Set fee recipient address
+     * @param newRecipient Address to receive fees
+     */
+    function setFeeRecipient(address newRecipient) external onlyOwner {
+        require(newRecipient != address(0), "HyperFillVault: Invalid fee recipient");
+        address oldRecipient = feeRecipient;
+        feeRecipient = newRecipient;
+        emit FeeRecipientSet(newRecipient, oldRecipient);
+    }
+
+    /**
+     * @notice Withdraw all accumulated fees
+     */
+    function withdrawFees() external {
+        require(
+            msg.sender == feeRecipient || msg.sender == owner(), 
+            "HyperFillVault: Not authorized to withdraw fees"
+        );
+        require(feeRecipient != address(0), "HyperFillVault: No fee recipient set");
+        
+        uint256 managementFees = accumulatedManagementFees;
+        uint256 performanceFees = accumulatedPerformanceFees;
+        uint256 totalFees = managementFees + performanceFees;
+        
+        require(totalFees > 0, "HyperFillVault: No fees to withdraw");
+        
+        // Reset accumulated fees
+        accumulatedManagementFees = 0;
+        accumulatedPerformanceFees = 0;
+        
+        // Transfer fees
+        IERC20(asset()).transfer(feeRecipient, totalFees);
+        
+        emit FeesWithdrawn(feeRecipient, managementFees, performanceFees, totalFees);
+    }
     
     // ===== VIEW FUNCTIONS =====
     
@@ -320,14 +402,15 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
      * @param user User address
      * @return User's share in underlying assets
      */
-     function getUserShareBalance(address user) external view returns (uint256) {
+    function getUserShareBalance(address user) external view returns (uint256) {
         return shareToUser[user];
     }
+
     /**
      * @notice Get balance of vault
      * @return Balance of vault
      */
-    function getBalanceVault external view returns (uint256) {
+    function getBalanceVault() external view returns (uint256) {
         return balanceOf(address(this));
     }
 
@@ -336,7 +419,7 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
      * @param user User address
      * @return Balance of user
      */
-        function getBalanceUser(address user) external view returns (uint256) {
+    function getBalanceUser(address user) external view returns (uint256) {
         return balanceOf(user);
     }
 }

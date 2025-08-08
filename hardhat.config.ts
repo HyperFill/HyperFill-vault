@@ -17,12 +17,12 @@ const config: HardhatUserConfig = {
   },
   networks: {
     seiTestnet: {
-      url: process.env.SEI_TESTNET_URL!,
+      url: "wss://evm-ws-testnet.sei-apis.com",
       chainId: 1328,
       accounts: [process.env.PRIVATE_KEY!],
     },
     seiMainnet: {
-      url: process.env.SEI_MAINNET_URL!,
+      url: "https://evm-rpc.sei-apis.com",
       chainId: 1329,
       accounts: [process.env.PRIVATE_KEY!],
     },
