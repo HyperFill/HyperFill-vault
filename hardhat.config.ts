@@ -1,5 +1,5 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-ethers";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -17,12 +17,12 @@ const config: HardhatUserConfig = {
   },
   networks: {
     seiTestnet: {
-      url: "wss://evm-ws-testnet.sei-apis.com",
+      url: "https://evm-rpc-testnet.sei-apis.com", 
       chainId: 1328,
       accounts: [process.env.PRIVATE_KEY!],
     },
     seiMainnet: {
-      url: "https://evm-rpc.sei-apis.com",
+      url: "https://evm-rpc.sei-apis.com", 
       chainId: 1329,
       accounts: [process.env.PRIVATE_KEY!],
     },
