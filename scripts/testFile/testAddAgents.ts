@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   // Config
-  const VAULT_ADDRESS = "0x2789213A4725FFF214DF9cA5B2fFe3b446f6A9e5";
+  const VAULT_ADDRESS = "0xc1faA15F4e250F7d25850d26A531372B50ACdFDF";
   const AGENT_ADDRESS = "0xA548b3bbee2A5b779077234cc14b5c2CA3d95b85"; 
   // ABI minimal (juste les fonctions qu'on veut)
   const VAULT_ABI = [

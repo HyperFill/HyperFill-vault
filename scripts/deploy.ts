@@ -11,8 +11,8 @@ async function main() {
     throw new Error("ASSET_ADDRESS env var is required");
   }
   const vault = await VaultFactory.deploy(process.env.ASSET_ADDRESS!);
-  await vault.waitForDeployment();
-console.log(`Vault deployed at: ${await vault.getAddress()}`);
+  await vault.deployed();
+console.log(`Vault deployed at: ${vault.address}`);
 }
 
 main().catch((error) => {

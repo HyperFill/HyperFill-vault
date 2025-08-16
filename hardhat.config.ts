@@ -1,5 +1,5 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -17,7 +17,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     seiTestnet: {
-      url: "https://evm-rpc-testnet.sei-apis.com", 
+      url: "https://evm-rpc-testnet.sei-apis.com",
       chainId: 1328,
       accounts: [process.env.PRIVATE_KEY!],
     },
