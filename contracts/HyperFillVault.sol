@@ -56,7 +56,7 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
     uint256 public managementFeeBps = 200; // 2% per year by default
 
     /// @notice Performance fee (basis points on profits, 10000 = 100%)
-    uint256 public performanceFeeBps = 500; // 5% on profits by default
+    uint256 public performanceFeeBps = 300; // 5% on profits by default
 
     /// @notice Fee recipient address
     address public feeRecipient;
