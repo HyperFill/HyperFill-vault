@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   // Config
-  const VAULT_ADDRESS = "0xc1faA15F4e250F7d25850d26A531372B50ACdFDF";
+  const VAULT_ADDRESS = "0x1a04F101aA4e155fCFe6EC49681C6AE9212B40F8";
 
   const VAULT_ABI = [
     "function setMaxAllocation(uint256 newMaxBps) external",

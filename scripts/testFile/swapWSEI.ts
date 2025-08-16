@@ -2,8 +2,7 @@ import { ethers } from 'ethers';
 
 // Testnet SEI
 const RPC_URL = 'https://evm-rpc-testnet.sei-apis.com';
-const WSEI_ADDRESS = '0x57eE725BEeB991c70c53f9642f36755EC6eb2139'; // WSEI testnet
-
+const WSEI_ADDRESS = '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B';
 const ABI = ['function deposit() payable'];
 
 async function swapSeiToWsei() {
