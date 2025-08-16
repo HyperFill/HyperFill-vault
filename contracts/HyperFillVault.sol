@@ -102,7 +102,7 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
         require(shares > 0, "HyperFillVault: Zero shares calculated");
 
         // Update shareToUser mapping
-        shareToUser[msg.sender] = shares;
+        shareToUser[msg.sender] += shares;  
         
         // Transfer assets from user to vault
         IERC20(asset()).transferFrom(msg.sender, address(this), assets);
@@ -132,6 +132,8 @@ contract HyperFillVault is ERC4626, Ownable, ReentrancyGuard, Pausable {
         // Calculate assets to return using ERC4626 logic
         assets = previewRedeem(shares);
         require(assets > 0, "HyperFillVault: Zero assets calculated");
+
+        shareToUser[msg.sender] -= shares;
         
         // Burn shares from user
         _burn(msg.sender, shares);

@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   // Config
-  const VAULT_ADDRESS = "0x1a04F101aA4e155fCFe6EC49681C6AE9212B40F8";
+  const VAULT_ADDRESS = "0x34d97ab8Faa4D2307F6762260328E36b2c9b86D8";
   const WSEI_ADDRESS = "0x027D2E627209f1cebA52ADc8A5aFE9318459b44B";
   const DEPOSIT_AMOUNT = ethers.utils.parseEther("1");
   
@@ -168,7 +168,7 @@ async function main() {
     // 7. Test deposit avec un petit montant
     console.log("\n7️⃣ Test deposit:");
     try {
-      const testAmount = ethers.utils.parseEther("0.1");
+      const testAmount = ethers.utils.parseEther("1");
       
       // S'assurer qu'on a l'allowance pour le test
       const testApproveTx = await wsei.approve(VAULT_ADDRESS, testAmount);
