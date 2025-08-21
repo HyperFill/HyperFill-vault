@@ -32,3 +32,8 @@ async function swapSeiToWsei() {
 }
 
 swapSeiToWsei();
+
+
+console.log("done");
+
+
