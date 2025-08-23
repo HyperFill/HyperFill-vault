@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
 async function main() {
-    const VAULT_ADDRESS = "0x34d97ab8Faa4D2307F6762260328E36b2c9b86D8";
+    const VAULT_ADDRESS = "0xe47BcF7103bBc8d1DDD75f2Ab6813da050443D2c";
     const FEE_RECIPIENT_ADDRESS = "0xa7b84453a22AdAdC015CFd3ec5104e9C43BA6224";
     
     const VAULT_ABI = [
