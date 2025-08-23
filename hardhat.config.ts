@@ -1,3 +1,5 @@
+// hardhat.config.ts
+import "@typechain/hardhat";               // <--- MUST be first (runs augmentation)
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
 import dotenv from "dotenv";
@@ -22,10 +24,16 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY!],
     },
     seiMainnet: {
-      url: "https://evm-rpc.sei-apis.com", 
+      url: "https://evm-rpc.sei-apis.com",
       chainId: 1329,
       accounts: [process.env.PRIVATE_KEY!],
     },
+  },
+
+  typechain: {
+    outDir: "typechain-types",
+    target: "ethers-v5",
+    // optional: alwaysGenerateOverloads: true
   },
 };
 

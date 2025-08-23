@@ -3,11 +3,13 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
 contract TradeSettlement is ReentrancyGuard, Ownable {
     using ECDSA for bytes32;
+    using MessageHashUtils for bytes32; // for .toEthSignedMessageHash()
 
     struct Trade {
         address party1;
@@ -57,7 +59,7 @@ contract TradeSettlement is ReentrancyGuard, Ownable {
         bool sufficient
     );
 
-    constructor() {}
+    constructor() Ownable(msg.sender) {}
 
     /**
      * @dev Check if user has sufficient allowance for a token
@@ -316,11 +318,11 @@ contract TradeSettlement is ReentrancyGuard, Ownable {
     /**
      * @dev Emergency function to recover stuck tokens (only owner)
      */
-    function emergencyRecoverToken(
-        address token,
-        address to,
-        uint256 amount
-    ) external onlyOwner {
-        IERC20(token).transfer(to, amount);
-    }
+    // function emergencyRecoverToken(
+    //     address token,
+    //     address to,
+    //     uint256 amount
+    // ) external onlyOwner {
+    //     IERC20(token).transfer(to, amount);
+    // }
 }
