@@ -5,13 +5,13 @@ dotenv.config();
 
 async function main() {
   // ========= CONFIG =========
-  const WSEI_ADDRESS = "0x0851d84c4c9Af5E0BF1da1f8250F20b0297a5A56"; // <-- change if needed
-  const VAULT_ADDRESS = "0xbaC8D6A511A673fCE111D8c14c760aDE68116558"; // <-- change if needed
+  const WSEI_ADDRESS = "0x027D2E627209f1cebA52ADc8A5aFE9318459b44B"; // <-- change if needed
+  const VAULT_ADDRESS = "0xe47BcF7103bBc8d1DDD75f2Ab6813da050443D2c"; // <-- change if needed
 
   // amounts
-  const USER_DEPOSIT = ethers.utils.parseEther("15");     // user deposits 5 WSEI
-  const MOVE_TO_AGENT = ethers.utils.parseEther("13");    // agent pulls 3 WSEI from vault
-  const PROFIT_AMOUNT = ethers.utils.parseEther("1");    // set to >0 only if agent has extra WSEI to return
+  const USER_DEPOSIT = ethers.utils.parseEther("1");     // user deposits 5 WSEI
+  const MOVE_TO_AGENT = ethers.utils.parseEther("0.5");    // agent pulls 3 WSEI from vault
+  const PROFIT_AMOUNT = ethers.utils.parseEther("0.1");    // set to >0 only if agent has extra WSEI to return
   const RUN_RETURN_ALL_CAPITAL = false;                  // set true to also test returnAllCapital
 
   // Optional: use a separate agent wallet
