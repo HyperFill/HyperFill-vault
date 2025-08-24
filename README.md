@@ -8,7 +8,7 @@
 ██║  ██║   ██║   ██║     ███████╗██║  ██║██║     ██║███████╗███████╗
 ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝
 
-          AI-Powered Market Making Vault on SEI Network 
+          First AI Market Making Vault on SEI Network 
               "We make money while you sleep" - The HyperFill Team
 ```
 
@@ -16,21 +16,21 @@
 
 ## Overview
 
-HyperFill Vault is a sophisticated smart contract system deployed on SEI Network that enables autonomous AI-powered trading through a secure vault mechanism. The system consists of two main contracts: a liquidity vault for user deposits and a trade settlement contract for secure multi-party trading.
+HyperFill Vault is a core smart contract system deployed on SEI Network connected with autonomous financial agents. The system has two main contracts: a liquidity vault for user deposits and a trade settlement contract for multi party trading.
 
 ## Smart Contract Architecture
 
 ### HyperFillVault.sol
 An ERC4626-compliant vault that manages user liquidity and AI agent capital allocation.
 
-**Core Features:**
-- **Liquidity Management**: Deposit/withdraw WSEI tokens
-- **Share-based Accounting**: ERC4626 standard implementation
-- **Agent Capital Allocation**: Secure fund movement to/from trading wallets
-- **Fee Management**: Management and withdrawal fees with time-based calculations
-- **Security**: ReentrancyGuard, Pausable, and access controls
+**Features:**
+- **Liquidity**: Deposit/withdraw WSEI tokens
+- **Share**: ERC4626 standard implementation
+- **Agent Capital**: Secure fund movement to/from trading wallets
+- **Fee**: Management and withdrawal fees with time-based calculations
+- **Security**: ReentrancyGuard, Pausable and access controls
 
-**Key Functions:**
+**Functions:**
 ```solidity
 function depositLiquidity(uint256 assets) external returns (uint256 shares)
 function withdrawProfits() external returns (uint256 assets)
@@ -41,13 +41,13 @@ function moveFromWalletToVault(uint256 amount, uint256 profitAmount, address fro
 ### TradeSettlement.sol
 A cryptographically secure multi-party trade settlement system.
 
-**Core Features:**
-- **Signature Verification**: ECDSA signature validation for trade authorization
-- **Nonce Management**: Replay attack prevention
-- **Multi-party Settlement**: Simultaneous asset exchange between parties
-- **Balance Validation**: Pre-execution balance and allowance checks
+**Features:**
+- **Signature**: ECDSA signature validation for trade authorization
+- **Management**: Replay attack prevention
+- **Settlement**: Simultaneous asset exchange between parties
+- **Balance**: Pre-execution balance and allowance checks
 
-**Key Functions:**
+**Functions:**
 ```solidity
 function settleTrade(TradeExecution tradeData, ...) external
 function verifyTradeSignature(...) external pure returns (bool)
@@ -169,14 +169,14 @@ TradeSettlement: 0xc2bE0BDc208034a6Db918e52F5763224479aD234
 WSEI Token: 0x027D2E627209f1cebA52ADc8A5aFE9318459b44B
 ```
 
-## Security Features
+## Security
 
-### Access Controls
+### Access
 - **Owner-only functions**: Fee management, agent authorization, emergency controls
 - **Agent-only functions**: Capital allocation and movement
 - **User functions**: Deposit, withdraw with proper validation
 
-### Security Measures
+### Measures
 - **ReentrancyGuard**: Prevents reentrancy attacks
 - **Pausable**: Emergency stop mechanism
 - **Signature Verification**: Cryptographic trade authorization
@@ -231,14 +231,6 @@ await tradeSettlement.settleTrade(
     nonce2
 );
 ```
-
-##  Key Benefits
-
-- **ERC4626 Compliance**: Standard interface for maximum compatibility
-- **Gas Optimized**: Efficient execution on SEI Network
-- **Transparent Fees**: Clear and predictable fee structure
-- **Secure Trading**: Cryptographically verified trade settlement
-- **Flexible Architecture**: Modular design for future enhancements
 
 ##  License
 
