@@ -12,7 +12,7 @@
               "We make money while you sleep" - The HyperFill Team
 ```
 
-> **ERC4626-compliant vault with integrated trade settlement system for AI-powered market making on SEI**
+> **ERC4626 vault with integrated trade settlement system for AI market making on SEI**
 
 ## Overview
 
