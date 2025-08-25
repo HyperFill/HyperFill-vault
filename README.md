@@ -113,7 +113,7 @@ npm install
 Create `.env` file:
 ```env
 PRIVATE_KEY=your_private_key_here
-ASSET_ADDRESS=0x027D2E627209f1cebA52ADc8A5aFE9318459b44B
+ASSET_ADDRESS=0x8eFcF5c2DDDA6C1A63D8395965Ca6c0609CE32D5
 ```
 
 ### Deploy to SEI Testnet
@@ -164,9 +164,9 @@ npx hardhat run scripts/testFile/testSettlement.ts --network seiTestnet
 ##  Contract Addresses (SEI Testnet)
 
 ```
-HyperFillVault: 0xe47BcF7103bBc8d1DDD75f2Ab6813da050443D2c
+HyperFillVault: 0x2B8C9cd22eFd93e15ff4A7cB7A0ef0A16Eb435C3
 TradeSettlement: 0xc2bE0BDc208034a6Db918e52F5763224479aD234
-WSEI Token: 0x027D2E627209f1cebA52ADc8A5aFE9318459b44B
+WSEI Token: 0x8eFcF5c2DDDA6C1A63D8395965Ca6c0609CE32D5
 ```
 
 ## Security
