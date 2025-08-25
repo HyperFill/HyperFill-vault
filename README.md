@@ -9,7 +9,7 @@
 ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝
 
           First AI Market Making Vault on SEI Network 
-              "We make money while you sleep" - The HyperFill Team
+              
 ```
 
 > **ERC4626 vault with integrated trade settlement system for AI market making on SEI**
